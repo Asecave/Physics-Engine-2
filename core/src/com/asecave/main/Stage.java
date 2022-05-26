@@ -1,8 +1,8 @@
 package com.asecave.main;
 
 import com.asecave.render.CircleRenderer;
+import com.asecave.render.GraphRenderer;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -16,6 +16,8 @@ public class Stage {
 	private BitmapFont font;
 	
 	private int steps = 100;
+	
+//	private int offsetX
 
 	public Stage() {
 
@@ -34,6 +36,9 @@ public class Stage {
 	}
 
 	public void update(float dt) {
+		
+		dt *= 10;
+		
 		for (int s = 0; s < steps; s++) {
 			for (int i = 0; i < entities.length; i++) {
 				if (entities[i] != null) {
@@ -77,6 +82,8 @@ public class Stage {
 				ekin = 0.5f * m * v2;
 			}
 		}
+		
+		float etotal = epot + ekin;
 
 		int x = -Gdx.graphics.getWidth() / 2 + 10;
 		int y = Gdx.graphics.getHeight() / 2 - 10;
@@ -85,11 +92,17 @@ public class Stage {
 				"FPS: " + Gdx.graphics.getFramesPerSecond() + " / MSPF: " + (Gdx.graphics.getDeltaTime() * 1000), x, y);
 		font.draw(batch, "Epot: " + (int) (epot * 10f) / 10f + "J", x, y -= 25);
 		font.draw(batch, "Ekin: " + (int) (ekin * 10f) / 10f + "J", x, y -= 25);
-		font.draw(batch, "Etotal: " + (int) ((epot + ekin) * 10f) / 10f + "J", x, y -= 25);
+		font.draw(batch, "Etotal: " + (int) ((etotal) * 10f) / 10f + "J", x, y -= 25);
+		
+		GraphRenderer.INSTANCE.addValue(0, Gdx.graphics.getDeltaTime() * 10);
+		GraphRenderer.INSTANCE.addValue(1, epot / 10000f);
+		GraphRenderer.INSTANCE.addValue(2, ekin / 10000f);
+		GraphRenderer.INSTANCE.addValue(3, etotal / 10000f);
 		
 	}
 	
 	public void renderHUD(ShapeRenderer sr) {
 		
+		GraphRenderer.INSTANCE.render(sr);
 	}
 }

@@ -33,7 +33,6 @@ public abstract class Entity {
 	
 	public void update(float dt) {
 		a = Mouse.get().cpy().sub(pos).nor().scl(9.81f);
-		
 		deSolver.solve(this, dt);
 	}
 	

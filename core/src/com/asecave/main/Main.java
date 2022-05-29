@@ -139,11 +139,15 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
+		
 		Vector2 mouseBefore = Mouse.get().cpy();
+		
 		sr.scale(1f - 0.1f * amountY, 1f - 0.1f * amountY, 1f);
 		Mouse.updateTransformationMatrix(sr.getTransformMatrix());
+		
 		Vector2 delta = Mouse.get().cpy().sub(mouseBefore);
 		sr.translate(delta.x, delta.y, 0f);
+		
 		Mouse.updateTransformationMatrix(sr.getTransformMatrix());
 		return false;
 	}

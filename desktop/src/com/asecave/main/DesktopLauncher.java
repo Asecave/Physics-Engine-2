@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.useVsync(true);
-		config.setForegroundFPS(0);
+//		config.setForegroundFPS(20);
 		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 4);
 		config.setWindowedMode(960, 640);
 		config.setTitle("Physics Engine 2");

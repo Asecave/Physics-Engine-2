@@ -12,12 +12,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Stage {
 
 	private Entity[] entities;
+	private Constraint[] constraints;
 
 	private BitmapFont font;
 	
-	private int steps = 100;
+	private int steps = 500;
 	
-//	private int offsetX
+	private DESolver deSolver;
 
 	public Stage() {
 
@@ -29,20 +30,24 @@ public class Stage {
 		font = new FreeTypeFontGenerator(Gdx.files.internal("consolas.ttf")).generateFont(parameter);
 
 		entities = new Entity[500];
-
+		constraints = new Constraint[100];
+		constraints[0] = new Constraint();
+		
 		for (int i = 0; i < 1; i++) {
-			entities[i] = new Circle(0, 0, 100);
+			entities[i] = new Circle(i * 100, 0, 1);
+			entities[i].setConstraint(constraints[0]);
 		}
+		
+		deSolver = new DESolverEuler();
+		
 	}
 
 	public void update(float dt) {
 		
-		dt *= 10;
-		
 		for (int s = 0; s < steps; s++) {
 			for (int i = 0; i < entities.length; i++) {
 				if (entities[i] != null) {
-					entities[i].update(dt / steps);
+					deSolver.solve(entities[i], dt / steps);
 				}
 			}
 		}
@@ -74,12 +79,12 @@ public class Stage {
 				float m = e.getMass();
 				float g = e.getAcc().len();
 				float h = e.getPos().dst(Mouse.get());
-				epot = m * g * h;
+				epot += m * g * h;
 
 				// Ekin = 0.5*m*v*v
 
 				float v2 = e.getVel().x * e.getVel().x + e.getVel().y * e.getVel().y;
-				ekin = 0.5f * m * v2;
+				ekin += 0.5f * m * v2;
 			}
 		}
 		
@@ -103,6 +108,6 @@ public class Stage {
 	
 	public void renderHUD(ShapeRenderer sr) {
 		
-		GraphRenderer.INSTANCE.render(sr);
+//		GraphRenderer.INSTANCE.render(sr);
 	}
 }

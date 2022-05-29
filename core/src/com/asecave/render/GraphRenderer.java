@@ -19,18 +19,31 @@ public class GraphRenderer {
 
 		int h = 100;
 
-		int x = Gdx.graphics.getWidth() / 2 - 200;
+		int x = Gdx.graphics.getWidth() / 2 - 500;
 		int y = Gdx.graphics.getHeight() / 2;
+		
 
 		for (int j = 0; j < graphs.size; j++) {
 			Graph g = graphs.get(j);
+			
+			float min = 0f;
+			float max = 1f;
+//			for (int i = 0; i < g.values.length; i++) {
+//				if (g.values[i] < min || min == 0f) {
+//					min = g.values[i];
+//				}
+//				if (g.values[i] > max || max == 0f) {
+//					max = g.values[i];
+//				}
+//			}
+			
 			int offset = j * h;
 			sr.setColor(Color.WHITE);
 			sr.rect(x, y - offset, g.values.length, -h);
 			for (int i = 0; i < g.values.length; i++) {
 				float a = (float) ((i + (g.values.length - g.step)) % g.values.length) / g.values.length * 0.5f + 0.5f;
 				sr.setColor(new Color(1f, 1f, 1f, a));
-				sr.line(x + i, y - offset, x + i, y - h * Math.min(1f, g.values[i]) - offset);
+				sr.line(x + i, y - offset, x + i, y - h * ((g.values[i] - min) / (max - min)) - offset);
 			}
 		}
 	}
@@ -42,7 +55,7 @@ public class GraphRenderer {
 				return;
 			}
 		}
-		Graph g = new Graph(id, 200);
+		Graph g = new Graph(id, 500);
 		g.addValue(v);
 		graphs.add(g);
 	}

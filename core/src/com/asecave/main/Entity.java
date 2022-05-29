@@ -12,8 +12,6 @@ public abstract class Entity {
 	
 	private float m = 0f; // in kg
 	
-	private DESolver deSolver;
-	
 	public Entity() {
 		this(0f, 0f);
 	}
@@ -27,13 +25,6 @@ public abstract class Entity {
 		this.v = new Vector2();
 		this.m = mass;
 		a = new Vector2();
-		
-		deSolver = new DESolverEuler();
-	}
-	
-	public void update(float dt) {
-		a = Mouse.get().cpy().sub(pos).nor().scl(9.81f);
-		deSolver.solve(this, dt);
 	}
 	
 	public Vector2 getPos() {
@@ -50,5 +41,9 @@ public abstract class Entity {
 	
 	public float getMass() {
 		return m;
+	}
+	
+	public void setConstraint(Constraint constraint) {
+		
 	}
 }

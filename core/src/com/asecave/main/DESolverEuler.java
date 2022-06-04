@@ -1,8 +1,10 @@
 package com.asecave.main;
 
-import com.badlogic.gdx.math.Vector2;
+public class DESolverEuler extends DESolver {
 
-public class DESolverEuler implements DESolver {
+	public DESolverEuler(AccellerationFunction af) {
+		super(af);
+	}
 
 	@Override
 	public void solve(Entity e, float dt) {
@@ -12,11 +14,6 @@ public class DESolverEuler implements DESolver {
 		
 		e.getVel().add(e.getAcc().cpy().scl(dt));
 		
-		e.getAcc().set(getAccAtPos(e.getPos()));
+		e.getAcc().set(af.getAccAtPos(e.getPos()));
 	}
-	
-	private Vector2 getAccAtPos(Vector2 pos) {
-		return Mouse.get().cpy().sub(pos).nor().scl(9.81f);
-	}
-
 }

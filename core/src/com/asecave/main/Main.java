@@ -1,5 +1,7 @@
 package com.asecave.main;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -115,6 +117,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		lastMousePos = Mouse.get().cpy();
+		stage.mouseClicked(Mouse.get().cpy());
 		return false;
 	}
 

@@ -42,8 +42,4 @@ public abstract class Entity {
 	public float getMass() {
 		return m;
 	}
-	
-	public void setConstraint(Constraint constraint) {
-		
-	}
 }

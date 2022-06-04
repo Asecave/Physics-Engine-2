@@ -2,7 +2,11 @@ package com.asecave.main;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class DESolverRK4 implements DESolver {
+public class DESolverRK4 extends DESolver {
+
+	public DESolverRK4(AccellerationFunction af) {
+		super(af);
+	}
 
 	@Override
 	public void solve(Entity e, float dt) {

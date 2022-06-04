@@ -1,8 +1,12 @@
 package com.asecave.main;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-public interface DESolver {
-
-	public void solve(Entity e, float dt);
+public abstract class DESolver {
+	
+	protected AccellerationFunction af;
+	
+	public DESolver(AccellerationFunction af) {
+		this.af = af;
+	}
+	
+	public abstract void solve(Entity e, float dt);
 }

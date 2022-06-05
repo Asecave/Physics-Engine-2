@@ -1,7 +1,5 @@
 package com.asecave.main;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -10,7 +8,9 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Main extends ApplicationAdapter implements InputProcessor {
@@ -27,6 +27,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	private Stage stage;
 	
 	private Vector2 lastMousePos;
+	
+	private static Matrix4 transformationMatrix;
 
 	@Override
 	public void create() {
@@ -36,6 +38,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		sr.setAutoShapeType(true);
 		hudsr = new ShapeRenderer();
 		hudsr.setAutoShapeType(true);
+		transformationMatrix = sr.getTransformMatrix();
 		
 		stage = new Stage();
 		
@@ -130,7 +133,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		Vector2 delta = Mouse.get().cpy().sub(lastMousePos);
 		sr.translate(delta.x, delta.y, 0f);
-		Mouse.updateTransformationMatrix(sr.getTransformMatrix());
+		transformationMatrix = sr.getTransformMatrix();
 		lastMousePos.set(Mouse.get());
 		return false;
 	}
@@ -146,12 +149,22 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		Vector2 mouseBefore = Mouse.get().cpy();
 		
 		sr.scale(1f - 0.1f * amountY, 1f - 0.1f * amountY, 1f);
-		Mouse.updateTransformationMatrix(sr.getTransformMatrix());
+		transformationMatrix = sr.getTransformMatrix();
 		
 		Vector2 delta = Mouse.get().cpy().sub(mouseBefore);
 		sr.translate(delta.x, delta.y, 0f);
-		
-		Mouse.updateTransformationMatrix(sr.getTransformMatrix());
+
+		transformationMatrix = sr.getTransformMatrix();
 		return false;
+	}
+	
+	public static Vector2 mulWithTransformMat(Vector2 vec) {
+		Vector3 translation = transformationMatrix.getTranslation(new Vector3());
+		Vector3 scale = transformationMatrix.getScale(new Vector3());
+		vec.x -= translation.x;
+		vec.y -= translation.y;
+		vec.x *= 1 / scale.x;
+		vec.y *= 1 / scale.y;
+		return vec;
 	}
 }

@@ -5,41 +5,90 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Entity {
 
 	private Vector2 pos; // in m
-	
-	private Vector2 v; // in m/s
-	
-	private Vector2 a; // in m/s^2
-	
-	private float m = 0f; // in kg
-	
+
+	private Vector2 oldPos; // in m
+
+	private boolean fixed;
+
+	private Vector2 gravity = new Vector2(0f, 1f);
+
+	private Vector2[] trail;
+	private int trailIndex = 0;
+
 	public Entity() {
 		this(0f, 0f);
 	}
-	
+
 	public Entity(float posX, float posY) {
-		this(posX, posY, 1f);
+		this(posX, posY, false);
 	}
-	
-	public Entity(float posX, float posY, float mass) {
+
+	public Entity(float posX, float posY, boolean fixed) {
 		this.pos = new Vector2(posX, posY);
-		this.v = new Vector2();
-		this.m = mass;
-		a = new Vector2();
+		this.oldPos = this.pos.cpy().add(0f, 0f);
+		this.fixed = fixed;
 	}
-	
+
+	public void update(float dt, QuadTree<Entity> entities) {
+
+		if (!fixed) {
+			move(dt);
+		}
+		resolveCollision(entities);
+	}
+
+	private void move(float dt) {
+		float vx = pos.x - oldPos.x;
+		float vy = pos.y - oldPos.y;
+
+		oldPos.set(pos);
+
+		pos.x += vx;
+		pos.y += vy;
+		pos.x += gravity.x * dt;
+		pos.y += gravity.y * dt;
+
+		if (trail != null) {
+			trail[trailIndex].set(pos);
+			trailIndex++;
+			if (trailIndex == trail.length) {
+				trailIndex = 0;
+			}
+		}
+	}
+
+	private void resolveCollision(QuadTree<Entity> entities) {
+
+	}
+
 	public Vector2 getPos() {
 		return pos;
 	}
-	
-	public Vector2 getVel() {
-		return v;
+
+	public void setFixed(boolean fixed) {
+		this.fixed = fixed;
+	}
+
+	public boolean isFixed() {
+		return fixed;
+	}
+
+	public void setTrailEnabled(boolean b) {
+		if (b) {
+			trail = new Vector2[1000];
+			for (int i = 0; i < trail.length; i++) {
+				trail[i] = new Vector2();
+			}
+		} else {
+			trail = null;
+		}
+	}
+
+	public Vector2[] getTrail() {
+		return trail;
 	}
 	
-	public Vector2 getAcc() {
-		return a;
-	}
-	
-	public float getMass() {
-		return m;
+	public int getTrailIndex() {
+		return trailIndex;
 	}
 }

@@ -3,6 +3,7 @@ package com.asecave.main;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,6 +30,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	private Vector2 lastMousePos;
 	
 	private static Matrix4 transformationMatrix;
+	
+	public static Color backgroundColor;
 
 	@Override
 	public void create() {
@@ -43,6 +46,10 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		stage = new Stage();
 		
 		Gdx.input.setInputProcessor(this);
+		
+		backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+		
+		sr.scale(15f, 15f, 1f);
 	}
 
 	@Override
@@ -53,7 +60,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		stage.update(Gdx.graphics.getDeltaTime());
 		
 		fb.begin();
-		ScreenUtils.clear(0.2f, 0.2f, 0.2f, 1f);
+		ScreenUtils.clear(backgroundColor);
 		sr.setProjectionMatrix(cam.combined);
 		sr.begin();
 		stage.render(sr);
@@ -104,6 +111,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
+		stage.keyPressed(keycode);
 		return false;
 	}
 
@@ -114,6 +122,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
+		stage.keyTyped(character);
 		return false;
 	}
 

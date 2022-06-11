@@ -7,13 +7,9 @@ import com.badlogic.gdx.utils.Array;
 
 public class GraphRenderer {
 
-	public static GraphRenderer INSTANCE;
+	public static GraphRenderer INSTANCE = new GraphRenderer();
 
 	private static Array<Graph> graphs = new Array<>();
-
-	static {
-		INSTANCE = new GraphRenderer();
-	}
 
 	public void render(ShapeRenderer sr) {
 

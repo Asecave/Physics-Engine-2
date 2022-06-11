@@ -1,7 +1,6 @@
 package com.asecave.main;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

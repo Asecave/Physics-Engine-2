@@ -1,6 +1,6 @@
 package com.asecave.render;
 
-import com.asecave.main.Circle;
+import com.asecave.main.entity.Circle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;

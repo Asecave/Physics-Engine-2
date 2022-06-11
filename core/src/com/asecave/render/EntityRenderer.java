@@ -1,7 +1,7 @@
 package com.asecave.render;
 
-import com.asecave.main.Entity;
 import com.asecave.main.Main;
+import com.asecave.main.entity.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -17,7 +17,7 @@ public abstract class EntityRenderer {
 				Color c = Main.backgroundColor.cpy();
 				c.r = (float) ((i + (trail.length - e.getTrailIndex())) % trail.length) / trail.length * (1f - c.r) + c.r;
 				sr.setColor(c);
-				sr.circle(trail[i].x, trail[i].y, 0.05f, 10);
+				sr.circle(trail[i].x, trail[i].y, 1f, 10);
 			}
 		}
 	}

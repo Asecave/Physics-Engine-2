@@ -49,7 +49,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		
 		backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
 		
-		sr.scale(15f, 15f, 1f);
+		sr.scale(10f, 10f, 1f);
 	}
 
 	@Override

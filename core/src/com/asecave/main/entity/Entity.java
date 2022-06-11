@@ -1,16 +1,17 @@
-package com.asecave.main;
+package com.asecave.main.entity;
 
+import com.asecave.main.QuadTree;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity {
 
-	private Vector2 pos; // in m
+	protected Vector2 pos; // in m
 
-	private Vector2 oldPos; // in m
+	protected Vector2 oldPos; // in m
 
-	private boolean fixed;
+	protected boolean fixed;
 
-	private Vector2 gravity = new Vector2(0f, 1f);
+	private Vector2 gravity = new Vector2(0f, 0.01f);
 
 	private Vector2[] trail;
 	private int trailIndex = 0;
@@ -29,15 +30,15 @@ public abstract class Entity {
 		this.fixed = fixed;
 	}
 
-	public void update(float dt, QuadTree<Entity> entities) {
+	public void update(int steps, QuadTree<Entity> entities) {
 
 		if (!fixed) {
-			move(dt);
+			move(steps);
 		}
 		resolveCollision(entities);
 	}
 
-	private void move(float dt) {
+	private void move(int steps) {
 		float vx = pos.x - oldPos.x;
 		float vy = pos.y - oldPos.y;
 
@@ -45,8 +46,8 @@ public abstract class Entity {
 
 		pos.x += vx;
 		pos.y += vy;
-		pos.x += gravity.x * dt;
-		pos.y += gravity.y * dt;
+		pos.x += gravity.x;
+		pos.y += gravity.y;
 
 		if (trail != null) {
 			trail[trailIndex].set(pos);

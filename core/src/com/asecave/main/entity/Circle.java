@@ -1,4 +1,4 @@
-package com.asecave.main;
+package com.asecave.main.entity;
 
 public class Circle extends Entity {
 	

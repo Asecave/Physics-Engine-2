@@ -2,6 +2,10 @@ package com.asecave.main;
 
 import java.util.LinkedList;
 
+import com.asecave.main.entity.Circle;
+import com.asecave.main.entity.Constraint;
+import com.asecave.main.entity.Entity;
+import com.asecave.main.entity.LineConstraint;
 import com.asecave.render.CircleRenderer;
 import com.asecave.render.GraphRenderer;
 import com.asecave.render.HUDRenderer;
@@ -19,8 +23,8 @@ public class Stage {
 
 	private QuadTree<Entity> entities;
 
-	private int objectSteps = 10;
-	private int constraintSteps = 50;
+	private int objectSteps = 1;
+	private int constraintSteps = 15;
 
 	private int debug;
 
@@ -34,19 +38,60 @@ public class Stage {
 		entities = new QuadTree<>(bounds, 4);
 
 		Circle c1 = new Circle(0, 0, 1);
+		Circle c2 = new Circle(10, 0, 1);
+		Circle c3 = new Circle(0, 10, 1);
+		Circle c4 = new Circle(10, 10, 1);
+		
 		c1.setFixed(true);
-		Circle c2 = new Circle(0.1f, -10, 1);
-		LineConstraint lineConstraint1 = new LineConstraint(c1, c2, 10);
-//		Circle c3 = new Circle(0.001f, -20, 1);
-//		c3.setTrailEnabled(true);
-//		LineConstraint lineConstraint2 = new LineConstraint(c2, c3, 10);
+		
+		LineConstraint lc1 = new LineConstraint(c1, c2, 10);
+		LineConstraint lc2 = new LineConstraint(c2, c3, 10);
+		LineConstraint lc3 = new LineConstraint(c3, c1, 10);
+		LineConstraint lc4 = new LineConstraint(c2, c4, 10);
+		LineConstraint lc5 = new LineConstraint(c3, c4, 10);
 
 		entities.insert(c1);
 		entities.insert(c2);
+		entities.insert(c3);
+		entities.insert(c4);
+		entities.insert(lc1);
+		entities.insert(lc2);
+		entities.insert(lc3);
+		entities.insert(lc4);
+		entities.insert(lc5);
+		
+		
+		
+//		for (int j = 0; j < 50; j++) {
+//			int length = 20;
+//			Circle last = new Circle(j * 39.234324f, 0, 1);
+//			entities.insert(last);
+//			last.setFixed(true);
+//			for (int i = 0; i < 50; i++) {
+//				Circle c = new Circle(length * (i + 1) + j * 39.234324f, 0, 1);
+//				LineConstraint lc = new LineConstraint(last, c, length);
+//				entities.insert(c);
+//				entities.insert(lc);
+//				last = c;
+//			}
+//		}
+		
+		
+		
+//		Circle c1 = new Circle(0, 0, 20);
+//		c1.setFixed(true);
+//		Circle c2 = new Circle(1, -200, 20);
+//		Circle c3 = new Circle(0, -400, 20);
+//		c3.setTrailEnabled(true);
+//		
+//		LineConstraint lc1 = new LineConstraint(c1, c2, 200);
+//		LineConstraint lc2 = new LineConstraint(c2, c3, 200);
+//		
+//		entities.insert(c1);
+//		entities.insert(c2);
 //		entities.insert(c3);
-		entities.insert(lineConstraint1);
-//		entities.insert(lineConstraint2);
-
+//		entities.insert(lc1);
+//		entities.insert(lc2);
 	}
 
 	public void update(float dt) {
@@ -73,7 +118,7 @@ public class Stage {
 		for (int s = 0; s < objectSteps; s++) {
 			for (Entity e : all) {
 				if (!(e instanceof Constraint)) {
-					e.update(dt / objectSteps, entities);
+					e.update(objectSteps, entities);
 				}
 			}
 		}
@@ -81,7 +126,7 @@ public class Stage {
 		for (int s = 0; s < constraintSteps; s++) {
 			for (Entity e : all) {
 				if (e instanceof Constraint) {
-					e.update(dt / constraintSteps, entities);
+					e.update(constraintSteps, entities);
 				}
 			}
 		}

@@ -2,6 +2,7 @@ package com.asecave.main;
 
 import java.util.LinkedList;
 
+import com.asecave.main.entity.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -53,7 +54,9 @@ public class QuadTree<T extends Entity> {
 		divided = true;
 
 		for (int i = 0; i < containing; i++) {
-			insert(content[i]);
+			if (!insert(content[i])) {
+				root.insert(content[i]);
+			}
 			content[i] = null;
 		}
 
@@ -61,6 +64,7 @@ public class QuadTree<T extends Entity> {
 	}
 
 	public boolean insert(T e) {
+		
 
 		if (!boundary.contains(e.getPos())) {
 			return false;

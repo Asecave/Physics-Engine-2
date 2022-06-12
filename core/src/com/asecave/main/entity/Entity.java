@@ -1,19 +1,20 @@
 package com.asecave.main.entity;
 
 import com.asecave.main.QuadTree;
+import com.asecave.main.Trail;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity {
 
-	protected Vector2 pos; // in m
-	protected Vector2 oldPos; // in m
+	protected Vector2 pos;
+	protected Vector2 oldPos;
 	protected boolean fixed;
 	protected boolean collidable;
 	
-	private Vector2 gravity = new Vector2(0f, 0.01f);
-	private Vector2[] trail;
-	private int trailIndex = 0;
+	private final static Vector2 gravity = new Vector2(0f, 0.01f);
 	private int z;
+	private Trail trail;
 	
 	private static int lowestZ = 0;
 	private static int highestZ = 0;
@@ -39,15 +40,15 @@ public abstract class Entity {
 		z = ++highestZ;
 	}
 
-	public void update(int steps, QuadTree<Entity> entities) {
+	public void update(QuadTree<Entity> entities) {
 
 		if (!fixed) {
-			move(steps);
+			move();
 		}
 		resolveCollision(entities);
 	}
 
-	private void move(int steps) {
+	protected void move() {
 		float vx = pos.x - oldPos.x;
 		float vy = pos.y - oldPos.y;
 
@@ -57,17 +58,17 @@ public abstract class Entity {
 		pos.y += vy;
 		pos.x += gravity.x;
 		pos.y += gravity.y;
-
+		
 		if (trail != null) {
-			trail[trailIndex].set(pos);
-			trailIndex++;
-			if (trailIndex == trail.length) {
-				trailIndex = 0;
-			}
+			trail.note(pos);
 		}
 	}
+	
+	public Rectangle getAABB() {
+		return new Rectangle(pos.x, pos.y, 0, 0);
+	}
 
-	private void resolveCollision(QuadTree<Entity> entities) {
+	protected void resolveCollision(QuadTree<Entity> entities) {
 	}
 
 	public Vector2 getPos() {
@@ -84,21 +85,14 @@ public abstract class Entity {
 
 	public void setTrailEnabled(boolean b) {
 		if (b) {
-			trail = new Vector2[1000];
-			for (int i = 0; i < trail.length; i++) {
-				trail[i] = new Vector2();
-			}
+			trail = new Trail(50);
 		} else {
 			trail = null;
 		}
 	}
 
-	public Vector2[] getTrail() {
+	public Trail getTrail() {
 		return trail;
-	}
-	
-	public int getTrailIndex() {
-		return trailIndex;
 	}
 	
 	public int getZ() {
@@ -111,5 +105,9 @@ public abstract class Entity {
 
 	public void moveToBackground() {
 		z = --lowestZ;
+	}
+	
+	public void setCollidable(boolean b) {
+		collidable = b;
 	}
 }

@@ -8,8 +8,11 @@ public class Constraint extends Entity {
 		super(0, 0, false, collidable);
 	}
 
+	public void satisfyConstraint(int steps, QuadTree<Entity> entities) {
+	}
+	
 	@Override
-	public void update(int steps, QuadTree<Entity> entities) {
-		
+	public void update(QuadTree<Entity> entities) {
+		resolveCollision(entities);
 	}
 }

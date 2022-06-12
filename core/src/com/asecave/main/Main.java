@@ -19,7 +19,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	private FrameBuffer fb;
 	private ShapeRenderer sr;
 	private SpriteBatch batch;
-	static OrthographicCamera cam;
+	public static OrthographicCamera cam;
 	private ShapeRenderer hudsr;
 	private FrameBuffer hudfb;
 	
@@ -47,7 +47,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		
 		Gdx.input.setInputProcessor(this);
 		
-		backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1f);
+		backgroundColor = new Color(0.75f, 0.75f, 0.75f, 1f);
 		
 		sr.scale(10f, 10f, 1f);
 	}
@@ -179,5 +179,9 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	
 	public static Matrix4 getTransformMat() {
 		return transformationMatrix;
+	}
+	
+	public static Vector2 getCenter() {
+		return mulWithTransformMat(new Vector2());
 	}
 }

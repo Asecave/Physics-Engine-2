@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class EntityRenderer {
+	
+	protected static int detail;
 
 	public void render(ShapeRenderer sr, Entity e) {
 		Vector2[] trail = e.getTrail();
@@ -20,5 +22,12 @@ public abstract class EntityRenderer {
 				sr.circle(trail[i].x, trail[i].y, 1f, 10);
 			}
 		}
+	}
+	
+	public static void updateDetail() {
+
+		float scale = Main.getTransformMat().getScaleX();
+
+		detail = Math.max(Math.min((int) (Math.log(scale) * 10), 100), 1);
 	}
 }

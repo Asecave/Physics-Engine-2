@@ -1,5 +1,7 @@
 package com.asecave.main;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import com.asecave.main.entity.Circle;
@@ -7,6 +9,7 @@ import com.asecave.main.entity.Constraint;
 import com.asecave.main.entity.Entity;
 import com.asecave.main.entity.LineConstraint;
 import com.asecave.render.CircleRenderer;
+import com.asecave.render.EntityRenderer;
 import com.asecave.render.GraphRenderer;
 import com.asecave.render.HUDRenderer;
 import com.asecave.render.LineConstraintRenderer;
@@ -37,31 +40,37 @@ public class Stage {
 		screenSpace = new Rectangle();
 		entities = new QuadTree<>(bounds, 4);
 
-		Circle c1 = new Circle(0, 0, 1);
-		Circle c2 = new Circle(10, 0, 1);
-		Circle c3 = new Circle(0, 10, 1);
-		Circle c4 = new Circle(10, 10, 1);
-		
-		c1.setFixed(true);
-		
-		LineConstraint lc1 = new LineConstraint(c1, c2, 10);
-		LineConstraint lc2 = new LineConstraint(c2, c3, 10);
-		LineConstraint lc3 = new LineConstraint(c3, c1, 10);
-		LineConstraint lc4 = new LineConstraint(c2, c4, 10);
-		LineConstraint lc5 = new LineConstraint(c3, c4, 10);
+		HUDRenderer.INSTANCE.set("fps", "");
+		HUDRenderer.INSTANCE.set("steps", "");
+		HUDRenderer.INSTANCE.set("entity_count", "");
+		HUDRenderer.INSTANCE.set("visible_entities", "");
+		HUDRenderer.INSTANCE.set("entity_update_time", "");
+		HUDRenderer.INSTANCE.set("quadtree_update_time", "");
+		HUDRenderer.INSTANCE.set("render_time", "");
 
-		entities.insert(c1);
-		entities.insert(c2);
-		entities.insert(c3);
-		entities.insert(c4);
-		entities.insert(lc1);
-		entities.insert(lc2);
-		entities.insert(lc3);
-		entities.insert(lc4);
-		entities.insert(lc5);
-		
-		
-		
+//		Circle c1 = new Circle(0, 0, 1);
+//		Circle c2 = new Circle(10, 0, 1);
+//		Circle c3 = new Circle(0, 10, 1);
+//		Circle c4 = new Circle(10, 10, 1);
+//		
+//		c1.setFixed(true);
+//		
+//		LineConstraint lc1 = new LineConstraint(c1, c2, 10);
+//		LineConstraint lc2 = new LineConstraint(c2, c3, 10);
+//		LineConstraint lc3 = new LineConstraint(c3, c1, 10);
+//		LineConstraint lc4 = new LineConstraint(c2, c4, 10);
+//		LineConstraint lc5 = new LineConstraint(c3, c4, 10);
+//
+//		entities.insert(c1);
+//		entities.insert(c2);
+//		entities.insert(c3);
+//		entities.insert(c4);
+//		entities.insert(lc1);
+//		entities.insert(lc2);
+//		entities.insert(lc3);
+//		entities.insert(lc4);
+//		entities.insert(lc5);
+
 //		for (int j = 0; j < 50; j++) {
 //			int length = 20;
 //			Circle last = new Circle(j * 39.234324f, 0, 1);
@@ -69,13 +78,47 @@ public class Stage {
 //			last.setFixed(true);
 //			for (int i = 0; i < 50; i++) {
 //				Circle c = new Circle(length * (i + 1) + j * 39.234324f, 0, 1);
-//				LineConstraint lc = new LineConstraint(last, c, length);
+//				LineConstraint lc1 = new LineConstraint(last, c, length);
 //				entities.insert(c);
-//				entities.insert(lc);
+//				entities.insert(lc1);
 //				last = c;
 //			}
 //		}
-		
+
+//		Entity[][] circles = new Entity[10][10];
+//		int length = 3;
+//		for (int i = 0; i < circles.length; i++) {
+//			for (int j = 0; j < circles[0].length; j++) {
+//				circles[i][j] = new Circle(length * i, -j * length, 1);
+//				entities.insert(circles[i][j]);
+//			}
+//		}
+//
+//		for (int i = 0; i < circles.length; i++) {
+//			for (int j = 0; j < circles[0].length; j++) {
+//
+//				if (j == 0) {
+//					circles[i][j].setFixed(true);
+//				}
+//
+//				if (j < circles[0].length - 1) {
+//					LineConstraint lc1 = new LineConstraint(circles[i][j], circles[i][j + 1], length);
+//					entities.insert(lc1);
+//				}
+//				if (i < circles.length - 1) {
+//					LineConstraint lc2 = new LineConstraint(circles[i][j], circles[i + 1][j], length);
+//					entities.insert(lc2);
+//				}
+//				if (i < circles.length - 1 && j < circles.length - 1) {
+//					LineConstraint lc2 = new LineConstraint(circles[i][j + 1], circles[i + 1][j], (float) Math.sqrt(length * length * 2));
+//					entities.insert(lc2);
+//				}
+//			}
+//
+//		}
+//
+//		circles[5][5].moveToForeground();
+
 		
 		
 //		Circle c1 = new Circle(0, 0, 20);
@@ -92,6 +135,16 @@ public class Stage {
 //		entities.insert(c3);
 //		entities.insert(lc1);
 //		entities.insert(lc2);
+
+		
+		
+		Circle c1 = new Circle(0, 0, 1);
+		Circle c2 = new Circle(1000, 100, 1);
+		LineConstraint lc1 = new LineConstraint(c1, c2, 1000);
+		
+		entities.insert(c1);
+		entities.insert(c2);
+		entities.insert(lc1);
 	}
 
 	public void update(float dt) {
@@ -107,7 +160,7 @@ public class Stage {
 		float w = bottomRight.x - topLeft.x;
 		float h = bottomRight.y - topLeft.y;
 
-		screenSpace.set(topLeft.x, topLeft.y, w, h);
+		screenSpace.set(topLeft.x - 100, topLeft.y - 100, w + 200, h + 200);
 
 		long start = System.nanoTime();
 
@@ -132,24 +185,36 @@ public class Stage {
 		}
 
 		HUDRenderer.INSTANCE.set("entity_update_time",
-				"Entity update time:         " + (System.nanoTime() - start) / 1E6f + "ms");
+				"Entity update time: " + (System.nanoTime() - start) / 1E6f + "ms");
 		start = System.nanoTime();
 
 		entities.update();
 
 		HUDRenderer.INSTANCE.set("quadtree_update_time",
-				"Quadtree update time:      " + (System.nanoTime() - start) / 1E6f + "ms");
+				"Quadtree update time:  " + (System.nanoTime() - start) / 1E6f + "ms");
 	}
 
 	public void render(ShapeRenderer sr) {
+		
+		EntityRenderer.updateDetail();
 
 		long start = System.nanoTime();
 
 		LinkedList<Entity> visible = entities.query(screenSpace);
+		HUDRenderer.INSTANCE.set("visible_entities", "Visible: " + visible.size());
 
-		HUDRenderer.INSTANCE.set("find_visible",
-				"Determine visible objects: " + (System.nanoTime() - start) / 1E6f + "ms");
-		start = System.nanoTime();
+		Collections.sort(visible, new Comparator<Entity>() {
+			@Override
+			public int compare(Entity e1, Entity e2) {
+				if (e1.getZ() > e2.getZ()) {
+					return 1;
+				} else if (e1.getZ() == e2.getZ()) {
+					return 0;
+				} else {
+					return -1;
+				}
+			}
+		});
 
 		for (Entity e : visible) {
 			if (e instanceof Circle) {
@@ -158,9 +223,6 @@ public class Stage {
 				LineConstraintRenderer.INSTANCE.render(sr, (LineConstraint) e);
 			}
 		}
-
-		HUDRenderer.INSTANCE.set("render_visible",
-				"Render visible objects:    " + (System.nanoTime() - start) / 1E6f + "ms");
 
 		if (debug >= 3) {
 			entities.render(sr);
@@ -177,6 +239,8 @@ public class Stage {
 				sr.rect(bounds.x - i, bounds.y - i, bounds.width + i * 2, bounds.height + i * 2);
 			}
 		}
+
+		HUDRenderer.INSTANCE.set("render_time", "Render time: " + (System.nanoTime() - start) / 1E6f + "ms");
 	}
 
 	public void renderHUD(SpriteBatch batch) {

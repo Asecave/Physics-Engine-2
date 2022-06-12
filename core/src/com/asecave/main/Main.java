@@ -176,4 +176,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		vec.y *= 1 / scale.y;
 		return vec;
 	}
+	
+	public static Matrix4 getTransformMat() {
+		return transformationMatrix;
+	}
 }

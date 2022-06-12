@@ -6,15 +6,17 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Entity {
 
 	protected Vector2 pos; // in m
-
 	protected Vector2 oldPos; // in m
-
 	protected boolean fixed;
-
+	protected boolean collidable;
+	
 	private Vector2 gravity = new Vector2(0f, 0.01f);
-
 	private Vector2[] trail;
 	private int trailIndex = 0;
+	private int z;
+	
+	private static int lowestZ = 0;
+	private static int highestZ = 0;
 
 	public Entity() {
 		this(0f, 0f);
@@ -25,9 +27,16 @@ public abstract class Entity {
 	}
 
 	public Entity(float posX, float posY, boolean fixed) {
+		this(posX, posY, fixed, true);
+	}
+	
+	public Entity(float posX, float posY, boolean fixed, boolean collidable) {
 		this.pos = new Vector2(posX, posY);
 		this.oldPos = this.pos.cpy().add(0f, 0f);
 		this.fixed = fixed;
+		this.collidable = collidable;
+		
+		z = ++highestZ;
 	}
 
 	public void update(int steps, QuadTree<Entity> entities) {
@@ -59,7 +68,6 @@ public abstract class Entity {
 	}
 
 	private void resolveCollision(QuadTree<Entity> entities) {
-
 	}
 
 	public Vector2 getPos() {
@@ -91,5 +99,17 @@ public abstract class Entity {
 	
 	public int getTrailIndex() {
 		return trailIndex;
+	}
+	
+	public int getZ() {
+		return z;
+	}
+	
+	public void moveToForeground() {
+		z = ++highestZ;
+	}
+
+	public void moveToBackground() {
+		z = --lowestZ;
 	}
 }

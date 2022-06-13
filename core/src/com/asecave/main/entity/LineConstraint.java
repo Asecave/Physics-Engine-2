@@ -14,7 +14,7 @@ public class LineConstraint extends Constraint {
 	private float strength = 0.8f;
 	private boolean capsule;
 	private float radius;
-	private float bounce = 1f;
+	private float bounce = 0.9f;
 
 	public LineConstraint(Entity e1, Entity e2, float length) {
 		this(e1, e2, length, true, true, 0.5f);
@@ -81,12 +81,16 @@ public class LineConstraint extends Constraint {
 
 								Vector2 n = c.pos.cpy().sub(p).nor();
 								float dstResolve = r2 - dst;
-								c.pos.add(n.scl(dstResolve));
-
-//						Vector2 moved = c.pos.cpy().sub(c.oldPos);
-//						c.oldPos.add(moved.scl(bounce));
-//						Vector2 dir = e2.pos.cpy().sub(e1.pos).nor();
-//						c.theta += moved.dot(dir) - c.oldTheta;
+								c.pos.x += n.x * dstResolve;
+								c.pos.y += n.y * dstResolve;
+								
+								c.oldPos.set(c.pos);
+								Vector2 off = c.oldV.cpy().scl(bounce);
+								c.oldPos.x += off.x * -n.x;
+								c.oldPos.y += off.y * -n.y;
+								
+								
+//								c.theta += c.oldV.dot(dir) - c.oldTheta;
 							}
 						}
 					}

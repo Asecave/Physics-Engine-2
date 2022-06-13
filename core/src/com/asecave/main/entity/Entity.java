@@ -9,6 +9,7 @@ public abstract class Entity {
 
 	protected Vector2 pos;
 	protected Vector2 oldPos;
+	protected Vector2 oldV;
 	protected boolean fixed;
 	protected boolean collidable;
 	
@@ -33,10 +34,10 @@ public abstract class Entity {
 	
 	public Entity(float posX, float posY, boolean fixed, boolean collidable) {
 		this.pos = new Vector2(posX, posY);
-		this.oldPos = this.pos.cpy().add(0f, 0f);
+		this.oldPos = this.pos.cpy();
+		this.oldV = this.oldPos.cpy();
 		this.fixed = fixed;
 		this.collidable = collidable;
-		
 		z = ++highestZ;
 	}
 
@@ -51,6 +52,8 @@ public abstract class Entity {
 	protected void move() {
 		float vx = pos.x - oldPos.x;
 		float vy = pos.y - oldPos.y;
+		
+		oldV.set(vx, vy);
 
 		oldPos.set(pos);
 

@@ -86,8 +86,8 @@ public class LineConstraint extends Constraint {
 								float dstResolve = r2 - dst;
 								c.pos.x += n.x * dstResolve;
 								c.pos.y += n.y * dstResolve;
-								
 
+								Vector2 l = e2.pos.cpy().sub(e1.pos).nor();
 								float dotA = c.oldV.dot(l);
 								float dotB = c.oldV.dot(n);
 

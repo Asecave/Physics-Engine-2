@@ -32,6 +32,8 @@ public class Stage {
 
 	private Rectangle bounds;
 	private Rectangle screenSpace;
+	
+	private EntityEditor entitiyEditor;
 
 	public Stage() {
 
@@ -46,6 +48,8 @@ public class Stage {
 		HUDRenderer.INSTANCE.set("entity_update_time", "");
 		HUDRenderer.INSTANCE.set("quadtree_update_time", "");
 		HUDRenderer.INSTANCE.set("render_time", "");
+		
+		entitiyEditor = new EntityEditor();
 
 //		Circle c1 = new Circle(0, 0, 1);
 //		Circle c2 = new Circle(10, 0, 1);
@@ -252,7 +256,7 @@ public class Stage {
 		entities.insert(lc07);
 	}
 
-	public void update(float dt) {
+	public void update() {
 
 		HUDRenderer.INSTANCE.set("fps",
 				"FPS: " + Gdx.graphics.getFramesPerSecond() + " / MSPF: " + (Gdx.graphics.getDeltaTime() * 1000));
@@ -293,6 +297,8 @@ public class Stage {
 
 		HUDRenderer.INSTANCE.set("quadtree_update_time",
 				"Quadtree update time:  " + (System.nanoTime() - start) / 1E6f + "ms");
+		
+		entitiyEditor.update();
 	}
 
 	public void render(ShapeRenderer sr) {
@@ -318,7 +324,6 @@ public class Stage {
 		for (Entity e : visible) {
 			if (e instanceof Circle) {
 				CircleRenderer.INSTANCE.renderBackground(sr, (Circle) e);
-				OutlineRenderer.INSTANCE.render(sr, e, 5f, 5f, Color.GREEN);
 			} else if (e instanceof LineConstraint) {
 				LineConstraintRenderer.INSTANCE.renderBackground(sr, (LineConstraint) e);
 			}
@@ -356,6 +361,8 @@ public class Stage {
 				sr.rect(bounds.x - i, bounds.y - i, bounds.width + i * 2, bounds.height + i * 2);
 			}
 		}
+		
+		entitiyEditor.render(sr);
 
 		HUDRenderer.INSTANCE.set("render_time", "Render time: " + (System.nanoTime() - start) / 1E6f + "ms");
 	}
@@ -390,29 +397,34 @@ public class Stage {
 	public void keyTyped(char c) {
 		if (c == 'c') {
 			
-			int size = 8;
+//			int size = 8;
+//			
+//			Circle c1 = new Circle(Mouse.get().x, Mouse.get().y, 1);
+//			Circle c2 = new Circle(Mouse.get().x + 2, Mouse.get().y, 1);
+//			Circle c3 = new Circle(Mouse.get().x + 2, Mouse.get().y + 2, 1);
+//			Circle c4 = new Circle(Mouse.get().x, Mouse.get().y + 2, 1);
+//			
+//			LineConstraint lc1 = new LineConstraint(c1, c2, size);
+//			LineConstraint lc2 = new LineConstraint(c2, c3, size);
+//			LineConstraint lc3 = new LineConstraint(c3, c4, size);
+//			LineConstraint lc4 = new LineConstraint(c4, c1, size);
+//			LineConstraint lc5 = new LineConstraint(c1, c3, (float) Math.sqrt(size * size * 2));
+//			
+//			c1.setTrailEnabled(true);
+//			entities.insert(c1);
+//			entities.insert(c2);
+//			entities.insert(c3);
+//			entities.insert(c4);
+//			entities.insert(lc1);
+//			entities.insert(lc2);
+//			entities.insert(lc3);
+//			entities.insert(lc4);
+//			entities.insert(lc5);
 			
-			Circle c1 = new Circle(Mouse.get().x, Mouse.get().y, 1);
-			Circle c2 = new Circle(Mouse.get().x + 2, Mouse.get().y, 1);
-			Circle c3 = new Circle(Mouse.get().x + 2, Mouse.get().y + 2, 1);
-			Circle c4 = new Circle(Mouse.get().x, Mouse.get().y + 2, 1);
-			
-			LineConstraint lc1 = new LineConstraint(c1, c2, size);
-			LineConstraint lc2 = new LineConstraint(c2, c3, size);
-			LineConstraint lc3 = new LineConstraint(c3, c4, size);
-			LineConstraint lc4 = new LineConstraint(c4, c1, size);
-			LineConstraint lc5 = new LineConstraint(c1, c3, (float) Math.sqrt(size * size * 2));
-			
-			c1.setTrailEnabled(true);
-			entities.insert(c1);
-			entities.insert(c2);
-			entities.insert(c3);
-			entities.insert(c4);
-			entities.insert(lc1);
-			entities.insert(lc2);
-			entities.insert(lc3);
-			entities.insert(lc4);
-			entities.insert(lc5);
+			Circle circle = new Circle(Mouse.get().x, Mouse.get().y, 2);
+			circle.setTrailEnabled(true);
+			entities.insert(circle);
+			entitiyEditor.select(circle);
 		}
 	}
 

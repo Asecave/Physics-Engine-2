@@ -57,7 +57,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		
 		cam.update();
 		
-		stage.update(Gdx.graphics.getDeltaTime());
+		stage.update();
 		
 		fb.begin();
 		ScreenUtils.clear(backgroundColor);

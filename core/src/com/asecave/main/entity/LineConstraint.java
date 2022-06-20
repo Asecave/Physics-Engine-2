@@ -3,6 +3,7 @@ package com.asecave.main.entity;
 import java.util.LinkedList;
 
 import com.asecave.main.QuadTree;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,7 +15,7 @@ public class LineConstraint extends Constraint {
 	private float strength = 0.8f;
 	private boolean capsule;
 	private float radius;
-	private float bounce = 0.9f;
+	private float bounce = 0.2f;
 
 	public LineConstraint(Entity e1, Entity e2, float length) {
 		this(e1, e2, length, true, true, 0.5f);
@@ -79,17 +80,28 @@ public class LineConstraint extends Constraint {
 							float r2 = (c.getRadius() + radius);
 							if (dst < r2) {
 
-								Vector2 n = c.pos.cpy().sub(p).nor();
+								Vector2 dist = c.pos.cpy().sub(p);
+								float len = dist.len();
+								Vector2 n = dist.scl(1f / len);
 								float dstResolve = r2 - dst;
 								c.pos.x += n.x * dstResolve;
 								c.pos.y += n.y * dstResolve;
 								
-//								c.oldPos.set(c.pos);
-//								Vector2 off = c.oldV.cpy().scl(bounce);
-//								c.oldPos.x += off.x * -n.x;
-//								c.oldPos.y += off.y * -n.y;
-								
-								
+
+								float dotA = c.oldV.dot(l);
+								float dotB = c.oldV.dot(n);
+
+//								float angle = MathUtils.asin(dotB);
+//								if (!(angle < 0.01f && angle > -0.01f)) {
+//
+//									Vector2 prA = l.scl(dotA);
+//									Vector2 prB = n.scl(dotB);
+//
+//									Vector2 v = prA.sub(prB);
+//
+//									c.oldPos.set(c.pos);
+//									c.pos.add(v.scl(bounce));
+//								}
 //								c.theta += c.oldV.dot(dir) - c.oldTheta;
 							}
 						}
@@ -98,7 +110,7 @@ public class LineConstraint extends Constraint {
 			}
 		}
 	}
-	
+
 	@Override
 	public Rectangle getAABB() {
 		float largestR = Circle.largest.getRadius();

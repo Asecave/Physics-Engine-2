@@ -389,9 +389,30 @@ public class Stage {
 
 	public void keyTyped(char c) {
 		if (c == 'c') {
-			Circle c1 = new Circle(Mouse.get().x, Mouse.get().y, 2);
+			
+			int size = 8;
+			
+			Circle c1 = new Circle(Mouse.get().x, Mouse.get().y, 1);
+			Circle c2 = new Circle(Mouse.get().x + 2, Mouse.get().y, 1);
+			Circle c3 = new Circle(Mouse.get().x + 2, Mouse.get().y + 2, 1);
+			Circle c4 = new Circle(Mouse.get().x, Mouse.get().y + 2, 1);
+			
+			LineConstraint lc1 = new LineConstraint(c1, c2, size);
+			LineConstraint lc2 = new LineConstraint(c2, c3, size);
+			LineConstraint lc3 = new LineConstraint(c3, c4, size);
+			LineConstraint lc4 = new LineConstraint(c4, c1, size);
+			LineConstraint lc5 = new LineConstraint(c1, c3, (float) Math.sqrt(size * size * 2));
+			
 			c1.setTrailEnabled(true);
 			entities.insert(c1);
+			entities.insert(c2);
+			entities.insert(c3);
+			entities.insert(c4);
+			entities.insert(lc1);
+			entities.insert(lc2);
+			entities.insert(lc3);
+			entities.insert(lc4);
+			entities.insert(lc5);
 		}
 	}
 

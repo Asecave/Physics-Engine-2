@@ -12,6 +12,7 @@ import com.asecave.render.CircleRenderer;
 import com.asecave.render.GraphRenderer;
 import com.asecave.render.HUDRenderer;
 import com.asecave.render.LineConstraintRenderer;
+import com.asecave.render.OutlineRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -317,6 +318,7 @@ public class Stage {
 		for (Entity e : visible) {
 			if (e instanceof Circle) {
 				CircleRenderer.INSTANCE.renderBackground(sr, (Circle) e);
+				OutlineRenderer.INSTANCE.render(sr, e, 5f, 5f, Color.GREEN);
 			} else if (e instanceof LineConstraint) {
 				LineConstraintRenderer.INSTANCE.renderBackground(sr, (LineConstraint) e);
 			}

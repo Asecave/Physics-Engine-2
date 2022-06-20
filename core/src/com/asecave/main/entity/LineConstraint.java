@@ -84,10 +84,10 @@ public class LineConstraint extends Constraint {
 								c.pos.x += n.x * dstResolve;
 								c.pos.y += n.y * dstResolve;
 								
-								c.oldPos.set(c.pos);
-								Vector2 off = c.oldV.cpy().scl(bounce);
-								c.oldPos.x += off.x * -n.x;
-								c.oldPos.y += off.y * -n.y;
+//								c.oldPos.set(c.pos);
+//								Vector2 off = c.oldV.cpy().scl(bounce);
+//								c.oldPos.x += off.x * -n.x;
+//								c.oldPos.y += off.y * -n.y;
 								
 								
 //								c.theta += c.oldV.dot(dir) - c.oldTheta;

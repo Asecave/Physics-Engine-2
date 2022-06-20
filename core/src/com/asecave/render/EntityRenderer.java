@@ -45,7 +45,7 @@ public abstract class EntityRenderer {
 		}
 	}
 	
-	protected int getDetail(float offset) {
+	protected static int getDetail(float offset) {
 		float scale = Main.getTransformMat().getScaleX();
 		return Math.max(Math.min((int) (Math.log(scale * offset) * 10), 100), 1);
 	}

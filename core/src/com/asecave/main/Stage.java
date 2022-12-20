@@ -201,58 +201,14 @@ public class Stage {
 //		entities.insert(lc5);
 
 		Circle c01 = new Circle(0, 0, 1);
-		Circle c02 = new Circle(20, 20, 1);
-		Circle c03 = new Circle(40, 20, 1);
-		Circle c04 = new Circle(20, 40, 1);
-		Circle c05 = new Circle(0, 40, 1);
-		Circle c06 = new Circle(20, 60, 1);
-		Circle c07 = new Circle(40, 60, 1);
-		Circle c08 = new Circle(20, 80, 1);
-		Circle c09 = new Circle(-20, 100, 1);
-		Circle c10 = new Circle(-20, 102, 1);
-		Circle c11 = new Circle(60, 102, 1);
-		Circle c12 = new Circle(60, 100, 1);
+		Circle c02 = new Circle(20, 0, 1);
 
 		c01.setFixed(true);
 		c02.setFixed(true);
-		c03.setFixed(true);
-		c04.setFixed(true);
-		c05.setFixed(true);
-		c06.setFixed(true);
-		c07.setFixed(true);
-		c08.setFixed(true);
-		c09.setFixed(true);
-		c10.setFixed(true);
-		c11.setFixed(true);
-		c12.setFixed(true);
 
-		LineConstraint lc01 = new LineConstraint(c01, c02, 1f, true, true, 1f);
-		LineConstraint lc02 = new LineConstraint(c03, c04, 1f, true, true, 1f);
-		LineConstraint lc03 = new LineConstraint(c05, c06, 1f, true, true, 1f);
-		LineConstraint lc04 = new LineConstraint(c07, c08, 1f, true, true, 1f);
-		LineConstraint lc05 = new LineConstraint(c09, c10, 1f, true, true, 1f);
-		LineConstraint lc07 = new LineConstraint(c11, c12, 1f, true, true, 1f);
-		LineConstraint lc06 = new LineConstraint(c10, c11, 1f, true, true, 1f);
+		LineConstraint lc01 = new LineConstraint(c01, c02, 1f, true, 1f);
 
-		entities.insert(c01);
-		entities.insert(c02);
-		entities.insert(c03);
-		entities.insert(c04);
-		entities.insert(c05);
-		entities.insert(c06);
-		entities.insert(c07);
-		entities.insert(c08);
-		entities.insert(c09);
-		entities.insert(c10);
-		entities.insert(c11);
-		entities.insert(c12);
 		entities.insert(lc01);
-		entities.insert(lc02);
-		entities.insert(lc03);
-		entities.insert(lc04);
-		entities.insert(lc05);
-		entities.insert(lc06);
-		entities.insert(lc07);
 	}
 
 	public void update() {
@@ -310,13 +266,7 @@ public class Stage {
 		Collections.sort(visible, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity e1, Entity e2) {
-				if (e1.getZ() > e2.getZ()) {
-					return 1;
-				} else if (e1.getZ() == e2.getZ()) {
-					return 0;
-				} else {
-					return -1;
-				}
+				return Integer.compare(e1.getZ(), e2.getZ());
 			}
 		});
 

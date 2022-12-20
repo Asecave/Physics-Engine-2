@@ -14,7 +14,7 @@ public class LineConstraintRenderer extends EntityRenderer {
 		super.render(sr, lc);
 
 		int detail = getDetail(lc.getRadius());
-		if (!lc.isCapsule() || detail == 1) {
+		if (detail == 1) {
 			sr.set(ShapeType.Line);
 			sr.setColor(Color.WHITE);
 			sr.line(lc.getE1().getPos(), lc.getE2().getPos());

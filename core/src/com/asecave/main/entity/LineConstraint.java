@@ -12,19 +12,17 @@ public class LineConstraint extends Constraint {
 	private Entity e2;
 	private float length;
 	private float strength = 0.8f;
-	private boolean capsule;
 	private float radius;
 
 	public LineConstraint(Entity e1, Entity e2, float length) {
-		this(e1, e2, length, true, true, 0.5f);
+		this(e1, e2, length, true, 0.5f);
 	}
 
-	public LineConstraint(Entity e1, Entity e2, float length, boolean capsule, boolean collidable, float radius) {
+	public LineConstraint(Entity e1, Entity e2, float length, boolean collidable, float radius) {
 		super(collidable);
 		this.e1 = e1;
 		this.e2 = e2;
 		this.length = length;
-		this.capsule = capsule;
 		this.radius = radius;
 		setPos();
 	}
@@ -135,14 +133,6 @@ public class LineConstraint extends Constraint {
 
 	public Entity getE2() {
 		return e2;
-	}
-
-	public boolean isCapsule() {
-		return capsule;
-	}
-
-	public void setCapsule(boolean capsule) {
-		this.capsule = capsule;
 	}
 
 	public float getRadius() {

@@ -260,7 +260,14 @@ public class Stage {
 
 		long start = System.nanoTime();
 
-		LinkedList<Entity> visible = entities.query(screenSpace);
+		LinkedList<Entity> visible = entities.getAll();
+		for (int i = 0; i < visible.size(); i++) {
+			Entity e = visible.get(i);
+			if (!screenSpace.overlaps(e.getAABB())) {
+				visible.remove(e);
+				i--;
+			}
+		}
 		HUDRenderer.INSTANCE.set("visible_entities", "Visible: " + visible.size());
 
 		Collections.sort(visible, new Comparator<Entity>() {

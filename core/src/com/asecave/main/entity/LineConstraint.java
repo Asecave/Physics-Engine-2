@@ -110,7 +110,7 @@ public class LineConstraint extends Constraint {
 		pos.y = e1.pos.y + dy * 0.5f;
 	}
 
-	private Vector2 nearestPointOnLine(Vector2 p) {
+	public Vector2 nearestPointOnLine(Vector2 p) {
 
 		Vector2 ps = e1.pos.cpy().sub(p);
 		Vector2 se = e2.pos.cpy().sub(e1.pos);

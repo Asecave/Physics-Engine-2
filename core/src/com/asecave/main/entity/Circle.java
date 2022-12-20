@@ -9,8 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 public class Circle extends Entity {
 
 	private float radius = 0f;
-	protected float theta;
-	protected float oldTheta;
 
 	protected static Circle largest;
 
@@ -27,19 +25,6 @@ public class Circle extends Entity {
 
 	public float getRadius() {
 		return radius;
-	}
-
-	public float getTheta() {
-		return theta;
-	}
-
-	@Override
-	protected void move() {
-		super.move();
-
-		float da = theta - oldTheta;
-		oldTheta = theta;
-		theta += da;
 	}
 
 	@Override

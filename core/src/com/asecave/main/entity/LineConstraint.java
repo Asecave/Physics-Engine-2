@@ -3,7 +3,6 @@ package com.asecave.main.entity;
 import java.util.LinkedList;
 
 import com.asecave.main.QuadTree;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -15,7 +14,6 @@ public class LineConstraint extends Constraint {
 	private float strength = 0.8f;
 	private boolean capsule;
 	private float radius;
-	private float bounce = 0.2f;
 
 	public LineConstraint(Entity e1, Entity e2, float length) {
 		this(e1, e2, length, true, true, 0.5f);
@@ -86,23 +84,6 @@ public class LineConstraint extends Constraint {
 								float dstResolve = r2 - dst;
 								c.pos.x += n.x * dstResolve;
 								c.pos.y += n.y * dstResolve;
-
-								Vector2 l = e2.pos.cpy().sub(e1.pos).nor();
-								float dotA = c.oldV.dot(l);
-								float dotB = c.oldV.dot(n);
-
-//								float angle = MathUtils.asin(dotB);
-//								if (!(angle < 0.01f && angle > -0.01f)) {
-//
-//									Vector2 prA = l.scl(dotA);
-//									Vector2 prB = n.scl(dotB);
-//
-//									Vector2 v = prA.sub(prB);
-//
-//									c.oldPos.set(c.pos);
-//									c.pos.add(v.scl(bounce));
-//								}
-//								c.theta += c.oldV.dot(dir) - c.oldTheta;
 							}
 						}
 					}

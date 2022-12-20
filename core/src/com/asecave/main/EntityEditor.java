@@ -21,7 +21,7 @@ public class EntityEditor {
 
 	public void render(ShapeRenderer sr) {
 		if (selected != null) {
-			OutlineRenderer.INSTANCE.render(sr, selected, animationStep, animationStep / 2 + 100, Color.BLACK);
+			OutlineRenderer.INSTANCE.render(sr, selected, 0.5f, Color.GOLD);
 			animationStep++;
 		}
 	}

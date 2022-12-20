@@ -12,7 +12,6 @@ import com.asecave.render.CircleRenderer;
 import com.asecave.render.GraphRenderer;
 import com.asecave.render.HUDRenderer;
 import com.asecave.render.LineConstraintRenderer;
-import com.asecave.render.OutlineRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -338,6 +337,8 @@ public class Stage {
 			}
 		}
 
+		entitiyEditor.render(sr);
+
 		for (Entity e : visible) {
 			if (e instanceof Circle) {
 				CircleRenderer.INSTANCE.render(sr, (Circle) e);
@@ -361,8 +362,6 @@ public class Stage {
 				sr.rect(bounds.x - i, bounds.y - i, bounds.width + i * 2, bounds.height + i * 2);
 			}
 		}
-		
-		entitiyEditor.render(sr);
 
 		HUDRenderer.INSTANCE.set("render_time", "Render time: " + (System.nanoTime() - start) / 1E6f + "ms");
 	}

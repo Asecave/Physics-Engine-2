@@ -4,12 +4,15 @@ import com.asecave.main.entity.Entity;
 import com.asecave.render.OutlineRenderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 
 public class EntityEditor {
 
 	private Entity selected;
 
-	private int animationStep;
+	private float animationValue;
+	private float animationStep;
+	private float targetValue = 2f;
 
 	public EntityEditor() {
 
@@ -20,14 +23,25 @@ public class EntityEditor {
 	}
 
 	public void render(ShapeRenderer sr) {
-		if (selected != null) {
-			OutlineRenderer.INSTANCE.render(sr, selected, 0.5f, Color.GOLD);
-			animationStep++;
+		if (selected == null)
+			return;
+		
+		OutlineRenderer.INSTANCE.render(sr, selected, animationValue, Color.GOLD);
+		animationValue = MathUtils.sin(animationStep) * targetValue * 1.5f;
+		if (animationStep > MathUtils.PI * 0.5f) {
+			if (animationValue > targetValue) {
+				animationStep += 0.2f;
+			} else {
+				animationValue = targetValue;
+			}
+		} else {
+			animationStep += 0.2f;
 		}
 	}
 
 	public void select(Entity e) {
 		this.selected = e;
-		animationStep = 0;
+		animationValue = 0f;
+		animationStep = 0f;
 	}
 }

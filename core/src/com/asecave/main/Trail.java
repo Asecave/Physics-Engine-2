@@ -14,7 +14,7 @@ public class Trail {
 		for (int i = 0; i < trail.length; i++) {
 			trail[i] = new Vector2();
 		}
-		color = Color.GREEN;
+		color = Color.WHITE;
 	}
 	
 	public void note(Vector2 pos) {

@@ -71,8 +71,9 @@ public abstract class Entity {
 		return new Rectangle(pos.x, pos.y, 0, 0);
 	}
 
-	protected void resolveCollision(QuadTree<Entity> entities) {
-	}
+	protected abstract void resolveCollision(QuadTree<Entity> entities);
+	
+	public abstract boolean doesPointIntersect(Vector2 point);
 
 	public Vector2 getPos() {
 		return pos;

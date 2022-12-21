@@ -60,32 +60,32 @@ public class LineConstraint extends Constraint {
 	@Override
 	protected void resolveCollision(QuadTree<Entity> entities) {
 
-		if (collidable) {
+		if (!collidable)
+			return;
 
-			Rectangle r = getAABB();
+		LinkedList<Entity> near = entities.query(getAABB());
 
-			LinkedList<Entity> near = entities.query(r);
+		for (Entity e : near) {
+			if (e == this || e == e1 || e == e2)
+				continue;
+			if (e.fixed)
+				continue;
+			if (!(e instanceof Circle))
+				continue;
 
-			for (Entity e : near) {
-				if (e != this && e != e1 && e != e2) {
-					if (!e.fixed) {
-						if (e instanceof Circle) {
-							Circle c = (Circle) e;
-							Vector2 p = nearestPointOnLine(c.pos);
-							float dst = p.dst(c.pos);
-							float r2 = (c.getRadius() + radius);
-							if (dst < r2) {
+			Circle c = (Circle) e;
+			Vector2 p = nearestPointOnLine(c.pos);
+			float dst = p.dst(c.pos);
+			float r2 = (c.getRadius() + radius);
+			if (dst < r2) {
 
-								Vector2 dist = c.pos.cpy().sub(p);
-								float len = dist.len();
-								Vector2 n = dist.scl(1f / len);
-								float dstResolve = r2 - dst;
-								c.pos.x += n.x * dstResolve;
-								c.pos.y += n.y * dstResolve;
-							}
-						}
-					}
-				}
+				Vector2 dist = c.pos.cpy().sub(p);
+				float len = dist.len();
+				Vector2 n = dist.scl(1f / len);
+				float dstResolve = r2 - dst;
+				c.pos.x += n.x * dstResolve;
+				c.pos.y += n.y * dstResolve;
+
 			}
 		}
 	}
@@ -125,6 +125,12 @@ public class LineConstraint extends Constraint {
 			t = -len;
 		}
 		return e1.pos.cpy().sub(se.nor().scl(t));
+	}
+	
+	@Override
+	public boolean doesPointIntersect(Vector2 point) {
+		float dst = point.dst(nearestPointOnLine(point));
+		return dst < radius;
 	}
 
 	public Entity getE1() {

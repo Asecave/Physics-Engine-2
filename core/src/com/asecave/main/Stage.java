@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Stage {
 
 	private QuadTree<Entity> entities;
+	private LinkedList<Entity> visible;
 
 	private int constraintSteps = 15;
 
@@ -31,7 +32,7 @@ public class Stage {
 
 	private Rectangle bounds;
 	private Rectangle screenSpace;
-	
+
 	private EntityEditor entitiyEditor;
 
 	public Stage() {
@@ -47,158 +48,8 @@ public class Stage {
 		HUDRenderer.INSTANCE.set("entity_update_time", "");
 		HUDRenderer.INSTANCE.set("quadtree_update_time", "");
 		HUDRenderer.INSTANCE.set("render_time", "");
-		
+
 		entitiyEditor = new EntityEditor();
-
-//		Circle c1 = new Circle(0, 0, 1);
-//		Circle c2 = new Circle(10, 0, 1);
-//		Circle c3 = new Circle(0, 10, 1);
-//		Circle c4 = new Circle(10, 10, 1);
-//		
-//		c1.setFixed(true);
-//		
-//		LineConstraint lc1 = new LineConstraint(c1, c2, 10);
-//		LineConstraint lc2 = new LineConstraint(c2, c3, 10);
-//		LineConstraint lc3 = new LineConstraint(c3, c1, 10);
-//		LineConstraint lc4 = new LineConstraint(c2, c4, 10);
-//		LineConstraint lc5 = new LineConstraint(c3, c4, 10);
-//
-//		entities.insert(c1);
-//		entities.insert(c2);
-//		entities.insert(c3);
-//		entities.insert(c4);
-//		entities.insert(lc1);
-//		entities.insert(lc2);
-//		entities.insert(lc3);
-//		entities.insert(lc4);
-//		entities.insert(lc5);
-
-//		for (int j = 0; j < 50; j++) {
-//			int length = 20;
-//			Circle last = new Circle(j * 40f, -j * 10, 1);
-//			entities.insert(last);
-//			last.setFixed(true);
-//			for (int i = 0; i < 50; i++) {
-//				Circle c = new Circle(length * (i + 1) + j * 40f, -j * 10, 1);
-//				LineConstraint lc1 = new LineConstraint(last, c, length);
-//				entities.insert(c);
-//				entities.insert(lc1);
-//				last = c;
-//			}
-//		}
-
-//		Entity[][] circles = new Entity[100][100];
-//		int length = 3;
-//		for (int i = 0; i < circles.length; i++) {
-//			for (int j = 0; j < circles[0].length; j++) {
-//				circles[i][j] = new Circle(length * i, -j * length, 1);
-//				circles[i][j].setCollidable(false);
-//				entities.insert(circles[i][j]);
-//			}
-//		}
-//
-//		for (int i = 0; i < circles.length; i++) {
-//			for (int j = 0; j < circles[0].length; j++) {
-//
-//				if (j == 0) {
-//					circles[i][j].setFixed(true);
-//				}
-//
-//				if (j < circles[0].length - 1) {
-//					LineConstraint lc1 = new LineConstraint(circles[i][j], circles[i][j + 1], length);
-//					lc1.setCollidable(false);
-//					entities.insert(lc1);
-//				}
-//				if (i < circles.length - 1) {
-//					LineConstraint lc2 = new LineConstraint(circles[i][j], circles[i + 1][j], length);
-//					lc2.setCollidable(false);
-//					entities.insert(lc2);
-//				}
-////				if (i < circles.length - 1 && j < circles[0].length - 1) {
-////					LineConstraint lc2 = new LineConstraint(circles[i][j + 1], circles[i + 1][j], (float) Math.sqrt(length * length * 2));
-////					entities.insert(lc2);
-////				}
-//			}
-//
-//		}
-
-//		Circle c1 = new Circle(0, 0, 2);
-//		c1.setFixed(true);
-//		Circle c2 = new Circle(1, -20, 2);
-//		Circle c3 = new Circle(0, -40, 2);
-//		c3.setTrailEnabled(true);
-//		
-//		LineConstraint lc1 = new LineConstraint(c1, c2, 20);
-//		LineConstraint lc2 = new LineConstraint(c2, c3, 20);
-//		
-//		entities.insert(c1);
-//		entities.insert(c2);
-//		entities.insert(c3);
-//		entities.insert(lc1);
-//		entities.insert(lc2);
-
-//		Circle c1 = new Circle(0, 0, 1);
-//		Circle c2 = new Circle(10, 10, 1);
-//		LineConstraint lc1 = new LineConstraint(c1, c2, 10);
-//		
-//		c1.setFixed(true);
-//		
-//		entities.insert(c1);
-//		entities.insert(c2);
-//		entities.insert(lc1);
-
-//		int w = 20;
-//		int h = 20;
-//		int r = 2;
-//		for (int i = 0; i < w; i++) {
-//			for (int j = 0; j < h; j++) {
-//				if (i == 0 || j == 0 || i == w - 1 || j == h - 1) {
-//					Circle c = new Circle(i * r * 2, j * r * 2, r);
-//					c.setFixed(true);
-//					entities.insert(c);
-//				}
-//			}
-//		}
-
-//		int l = 5;
-//		Circle c1f = new Circle(0, 0, 1);
-//		Circle c2f = new Circle(2, 0, 1);
-//		Circle c3f = new Circle(4, 0, 1);
-//		Circle c4f = new Circle(6, 0, 1);
-//		Circle c5f = new Circle(8, 0, 1);
-//		Circle c1 = new Circle(0, l, 1);
-//		Circle c2 = new Circle(2, l, 1);
-//		Circle c3 = new Circle(4, l, 1);
-//		Circle c4 = new Circle(6, l, 1);
-//		Circle c5 = new Circle(8 + l, 0, 1);
-//		
-//		c1f.setFixed(true);
-//		c2f.setFixed(true);
-//		c3f.setFixed(true);
-//		c4f.setFixed(true);
-//		c5f.setFixed(true);
-//
-//		LineConstraint lc1 = new LineConstraint(c1f, c1, l);
-//		LineConstraint lc2 = new LineConstraint(c2f, c2, l);
-//		LineConstraint lc3 = new LineConstraint(c3f, c3, l);
-//		LineConstraint lc4 = new LineConstraint(c4f, c4, l);
-//		LineConstraint lc5 = new LineConstraint(c5f, c5, l);
-//
-//		entities.insert(c1f);
-//		entities.insert(c2f);
-//		entities.insert(c3f);
-//		entities.insert(c4f);
-//		entities.insert(c5f);
-//		entities.insert(c1);
-//		entities.insert(c2);
-//		entities.insert(c3);
-//		entities.insert(c4);
-//		entities.insert(c5);
-//		entities.insert(lc1);
-//		entities.insert(lc2);
-//		entities.insert(lc3);
-//		entities.insert(lc4);
-//		entities.insert(lc5);
 
 		Circle c01 = new Circle(0, 0, 1);
 		Circle c02 = new Circle(20, 0, 1);
@@ -252,7 +103,7 @@ public class Stage {
 
 		HUDRenderer.INSTANCE.set("quadtree_update_time",
 				"Quadtree update time:  " + (System.nanoTime() - start) / 1E6f + "ms");
-		
+
 		entitiyEditor.update();
 	}
 
@@ -260,7 +111,7 @@ public class Stage {
 
 		long start = System.nanoTime();
 
-		LinkedList<Entity> visible = entities.getAll();
+		visible = entities.getAll();
 		for (int i = 0; i < visible.size(); i++) {
 			Entity e = visible.get(i);
 			if (!screenSpace.overlaps(e.getAABB())) {
@@ -339,8 +190,16 @@ public class Stage {
 		}
 	}
 
-	public void mouseClicked(Vector2 pos) {
+	public void mouseClicked(final Vector2 pos) {
 
+		Entity clicked = null;
+
+		for (Entity e : visible) {
+			if (e.doesPointIntersect(pos))
+				clicked = e;
+		}
+
+		entitiyEditor.select(clicked);
 	}
 
 	public void cycleDebugMode() {
@@ -352,7 +211,7 @@ public class Stage {
 
 	public void keyTyped(char c) {
 		if (c == 'c') {
-			
+
 //			int size = 8;
 //			
 //			Circle c1 = new Circle(Mouse.get().x, Mouse.get().y, 1);
@@ -376,8 +235,8 @@ public class Stage {
 //			entities.insert(lc3);
 //			entities.insert(lc4);
 //			entities.insert(lc5);
-			
-			Circle circle = new Circle(Mouse.get().x, Mouse.get().y, 2);
+
+			Circle circle = new Circle(Mouse.get().x, Mouse.get().y, 5);
 			circle.setTrailEnabled(true);
 			entities.insert(circle);
 			entitiyEditor.select(circle);

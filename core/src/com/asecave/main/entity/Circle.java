@@ -10,7 +10,7 @@ public class Circle extends Entity {
 
 	private float radius = 0f;
 
-	protected static Circle largest;
+	public static Circle largest;
 
 	public Circle() {
 	}
@@ -69,6 +69,11 @@ public class Circle extends Entity {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean doesPointIntersect(Vector2 point) {
+		return point.dst(pos) < radius;
 	}
 
 	@Override

@@ -22,7 +22,12 @@ public class OutlineRenderer {
 			float max = r + width;
 			sr.circle(c.getPos().x, c.getPos().y, max, EntityRenderer.getDetail(r));
 		} else if (e instanceof LineConstraint) {
-
+			LineConstraint lc = (LineConstraint) e;
+			float r = lc.getRadius();
+			float max = r + width;
+			sr.circle(lc.getE1().getPos().x, lc.getE1().getPos().y, max, EntityRenderer.getDetail(r));
+			sr.circle(lc.getE2().getPos().x, lc.getE2().getPos().y, max, EntityRenderer.getDetail(r));
+			sr.rectLine(lc.getE1().getPos(), lc.getE2().getPos(), max * 2);
 		}
 	}
 }

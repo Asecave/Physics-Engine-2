@@ -12,7 +12,7 @@ public class EntityEditor {
 
 	private float animationValue;
 	private float animationStep;
-	private float targetValue = 2f;
+	private float targetValue = 0.5f;
 
 	public EntityEditor() {
 

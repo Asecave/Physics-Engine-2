@@ -51,15 +51,24 @@ public class Stage {
 
 		entitiyEditor = new EntityEditor();
 
-		Circle c01 = new Circle(0, 0, 1);
-		Circle c02 = new Circle(20, 0, 1);
+		Circle c1 = new Circle(-50, 0, 1f);
+		Circle c2 = new Circle(50, 0, 1f);
 
-		c01.setFixed(true);
-		c02.setFixed(true);
+		LineConstraint lc1 = new LineConstraint(c1, c2, 100);
 
-		LineConstraint lc01 = new LineConstraint(c01, c02, 1f, true, 1f);
+		c1.setFixed(true);
+		c2.setFixed(true);
 
-		entities.insert(lc01);
+		entities.insert(c1);
+		entities.insert(c2);
+		entities.insert(lc1);
+
+		for (int j = 0; j < 20; j++) {
+			for (int i = 0; i < 200; i++) {
+				Circle c = new Circle(j * 3 - 10, -5 - 2 * i, 1f);
+				entities.insert(c);
+			}
+		}
 	}
 
 	public void update() {
@@ -212,12 +221,12 @@ public class Stage {
 	public void keyTyped(char c) {
 		if (c == 'c') {
 
-//			int size = 8;
+//			int size = 5;
 //			
 //			Circle c1 = new Circle(Mouse.get().x, Mouse.get().y, 1);
-//			Circle c2 = new Circle(Mouse.get().x + 2, Mouse.get().y, 1);
-//			Circle c3 = new Circle(Mouse.get().x + 2, Mouse.get().y + 2, 1);
-//			Circle c4 = new Circle(Mouse.get().x, Mouse.get().y + 2, 1);
+//			Circle c2 = new Circle(Mouse.get().x + size, Mouse.get().y, 1);
+//			Circle c3 = new Circle(Mouse.get().x + size, Mouse.get().y + size, 1);
+//			Circle c4 = new Circle(Mouse.get().x, Mouse.get().y + size, 1);
 //			
 //			LineConstraint lc1 = new LineConstraint(c1, c2, size);
 //			LineConstraint lc2 = new LineConstraint(c2, c3, size);
@@ -225,7 +234,11 @@ public class Stage {
 //			LineConstraint lc4 = new LineConstraint(c4, c1, size);
 //			LineConstraint lc5 = new LineConstraint(c1, c3, (float) Math.sqrt(size * size * 2));
 //			
-//			c1.setTrailEnabled(true);
+//			c1.setCollidable(false);
+//			c2.setCollidable(false);
+//			c3.setCollidable(false);
+//			c4.setCollidable(false);
+//			
 //			entities.insert(c1);
 //			entities.insert(c2);
 //			entities.insert(c3);
@@ -236,10 +249,9 @@ public class Stage {
 //			entities.insert(lc4);
 //			entities.insert(lc5);
 
-			Circle circle = new Circle(Mouse.get().x, Mouse.get().y, 5);
+			Circle circle = new Circle(Mouse.get().x, Mouse.get().y, 3);
 			circle.setTrailEnabled(true);
 			entities.insert(circle);
-			entitiyEditor.select(circle);
 		}
 	}
 

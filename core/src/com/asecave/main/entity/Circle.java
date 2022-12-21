@@ -51,20 +51,6 @@ public class Circle extends Entity {
 								c.pos.add(n.scl(dstResolve / 2));
 							}
 						}
-					} else if (e instanceof LineConstraint) {
-						LineConstraint constr = (LineConstraint) e;
-						Vector2 p = constr.nearestPointOnLine(pos);
-						float dst = p.dst(pos);
-						float r2 = (constr.getRadius() + radius);
-						if (dst < r2) {
-
-							Vector2 dist = pos.cpy().sub(p);
-							float len = dist.len();
-							Vector2 n = dist.scl(1f / len);
-							float dstResolve = r2 - dst;
-							pos.x += n.x * dstResolve;
-							pos.y += n.y * dstResolve;
-						}
 					}
 				}
 			}

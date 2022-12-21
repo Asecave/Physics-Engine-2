@@ -24,7 +24,7 @@ public class CircleRenderer extends EntityRenderer {
 			sr.setColor(Color.BLACK);
 			sr.circle(c.getPos().x, c.getPos().y, c.getRadius(), detail);
 			sr.setColor(Color.WHITE);
-			sr.circle(c.getPos().x, c.getPos().y, c.getRadius() * 0.9f, detail);
+			sr.circle(c.getPos().x, c.getPos().y, c.getRadius() - 0.4f, detail);
 			sr.setColor(Color.BLACK);
 			sr.circle(c.getPos().x, c.getPos().y, c.getRadius() * 0.1f, detail);
 		}
